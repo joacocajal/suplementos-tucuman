@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Minus, Plus, MessageCircle } from "lucide-react";
+import { Minus, Plus, MessageCircle, Package } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { formatCurrency } from "../../lib/utils";
 import { getProductImage } from "../../lib/productImageMap";
@@ -15,6 +15,7 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
   const cat = CATEGORIAS.find((c) => c.value === product.categoria);
   const imgSrc = getProductImage(product);
   const isShaker = product.nombre === "Shake Everlast";
+  const isCombo = !!product.es_combo;
 
   function handleCardClick() {
     if (sinStock) return;
@@ -63,7 +64,11 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
         {/* ── FRONT ── */}
         <div className={cn(
           "absolute inset-0 [backface-visibility:hidden] rounded-2xl border bg-white overflow-hidden flex flex-col transition-colors duration-200 shadow-sm",
-          sinStock ? "border-[#E5E7EB] opacity-60" : flipped ? "border-[#FF6B1A]/40" : "border-[#E5E7EB] hover:border-[#FF6B1A]"
+          sinStock
+            ? "border-[#E5E7EB] opacity-60"
+            : isCombo
+            ? flipped ? "border-[#FF6B1A]" : "border-[#FF6B1A]/40 hover:border-[#FF6B1A]"
+            : flipped ? "border-[#FF6B1A]/40" : "border-[#E5E7EB] hover:border-[#FF6B1A]"
         )}>
           {/* Imagen */}
           <div className="relative flex-1 bg-[#F8F8F8] flex items-center justify-center overflow-hidden">
@@ -71,19 +76,28 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
               <img
                 src={imgSrc}
                 alt={product.nombre}
-                className="w-full h-full object-contain p-3"
+                className={cn("w-full h-full", isCombo ? "object-contain" : "object-contain p-3")}
                 onError={() => setImgError(true)}
               />
+            ) : isCombo ? (
+              <div className="flex flex-col items-center gap-2">
+                <Package size={40} className="text-[#D1D5DB]" />
+                <span className="text-xs text-[#9CA3AF]">Combo sin imagen</span>
+              </div>
             ) : (
               <span className="text-5xl text-[#D1D5DB]">{cat?.icon || "📦"}</span>
             )}
 
-            {/* Badge categoría */}
-            {cat && (
+            {/* Badge COMBO o categoría */}
+            {isCombo ? (
+              <span className="absolute top-2 left-2 text-xs bg-[#FF6B1A] text-white font-bold px-2 py-0.5 rounded-full">
+                COMBO
+              </span>
+            ) : cat ? (
               <span className="absolute top-2 left-2 text-xs bg-[#FF6B1A]/10 text-[#FF6B1A] border border-[#FF6B1A]/20 px-2 py-0.5 rounded-full">
                 {cat.label}
               </span>
-            )}
+            ) : null}
 
             {/* Sin stock overlay */}
             {sinStock && (
@@ -112,10 +126,15 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
         {/* ── BACK ── */}
         <div className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl border border-[#FF6B1A]/30 bg-white overflow-hidden flex flex-col p-4 shadow-sm">
           {/* Nombre */}
-          <p className="font-bebas text-base text-[#111111] leading-tight mb-3 line-clamp-2">
+          <p className="font-bebas text-base text-[#111111] leading-tight mb-1 line-clamp-2">
             {product.nombre}
           </p>
-          {isShaker && (
+          {product.descripcion && (
+            <p className="text-xs text-[#6B7280] mb-2 line-clamp-3 leading-snug">
+              {product.descripcion}
+            </p>
+          )}
+          {isShaker && !product.descripcion && (
             <p className="text-xs text-[#6B7280] mb-2">Consultar colores disponibles</p>
           )}
 

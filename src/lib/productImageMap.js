@@ -17,6 +17,11 @@ export const PRODUCT_IMAGE_MAP = {
   "Recovery Drink 540gr": "/productos/recoverydrink540gr.png",
   "Recovery Drink 10 sobres": "/productos/recoverydrinkx10.png",
   "Shake Everlast": "/productos/shakeeverlast.png",
+  "Combo Star": "/productos/combo-star.jpeg",
+  "Combo Creatina x2": "/productos/combo-creatina.jpeg",
+  "Combo Star Premium": "/productos/combo-star-premium.jpeg",
+  "Combo Carrera": "/productos/combo-carrera.jpeg",
+  "Combo Geles Mervick x12 + Regalo": "/productos/combo-geles-mervick.jpeg",
 };
 
 export function getProductImage(producto) {

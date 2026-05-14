@@ -5,11 +5,11 @@ import ProductGrid from "../../components/public/ProductGrid";
 import Footer from "../../components/public/Footer";
 import CheckoutModal from "../../components/public/CheckoutModal";
 import PromoCarousel from "../../components/public/PromoCarousel";
+import CombosSection from "../../components/public/CombosSection";
 
-// Agregá las rutas de las promos acá cuando las subas a /public/promos/
+// Rutas de imágenes de promos (agregá acá cuando subas las imágenes a /public/promos/)
 const PROMOS = [
   // "/promos/promo1.jpg",
-  // "/promos/promo2.jpg",
 ];
 
 function Toast({ toasts }) {
@@ -49,6 +49,7 @@ export default function Home() {
       <PromoCarousel images={PROMOS} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Hero />
+        <CombosSection onOpenCheckout={() => setCheckoutOpen(true)} />
         <ProductGrid
           onAddToast={showToast}
           onOpenCheckout={() => setCheckoutOpen(true)}

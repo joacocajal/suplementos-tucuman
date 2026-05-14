@@ -8,19 +8,19 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative min-h-[70vh] flex flex-col items-center justify-center overflow-hidden">
       {/* Fondo */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,26,0.10) 0%, transparent 60%), #ffffff",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,26,0.08) 0%, transparent 60%), #ffffff",
         }}
       />
 
       {/* Grid pattern sutil */}
       <div
-        className="absolute inset-0 opacity-[0.5]"
+        className="absolute inset-0 opacity-[0.4]"
         style={{
           backgroundImage:
             "linear-gradient(#F0F0F0 1px, transparent 1px), linear-gradient(90deg, #F0F0F0 1px, transparent 1px)",
@@ -28,25 +28,27 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+      <div className="relative z-10 max-w-2xl mx-auto px-4 text-center">
+        {/* Logo */}
+        <div className="flex justify-center mb-5">
+          <img
+            src="/logosuplementostucuman.jpeg"
+            alt="Suplementos Tucumán"
+            className="h-24 w-auto object-contain drop-shadow-sm"
+            onError={(e) => (e.target.style.display = "none")}
+          />
+        </div>
+
+        {/* Nombre minimalista */}
+        <h1 className="font-display text-3xl sm:text-4xl text-[#111111] tracking-widest mb-2">
+          SUPLEMENTOS <span className="text-[#FF6B1A]">TUCUMÁN</span>
+        </h1>
+
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-[#FF6B1A]/10 border border-[#FF6B1A]/30 text-[#FF6B1A] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 bg-[#FF6B1A]/10 border border-[#FF6B1A]/30 text-[#FF6B1A] text-xs font-semibold px-4 py-1.5 rounded-full mt-4 mb-8">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B1A] animate-pulse" />
           Envíos y retiros en Tucumán
         </div>
-
-        {/* Título */}
-        <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#111111] leading-none tracking-wide mb-6">
-          TU MEJOR{" "}
-          <span className="text-[#FF6B1A]">VERSIÓN</span>
-          <br />
-          EMPIEZA ACÁ
-        </h1>
-
-        {/* Subtítulo */}
-        <p className="text-[#6B7280] text-lg sm:text-xl max-w-xl mx-auto mb-10">
-          Suplementos deportivos en Tucumán. Proteínas, creatinas, vitaminas y más. Pedí por WhatsApp.
-        </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -69,7 +71,7 @@ export default function Hero() {
         </div>
 
         {/* Categorías decorativas */}
-        <div className="flex flex-wrap justify-center gap-2 mt-12">
+        <div className="flex flex-wrap justify-center gap-2 mt-10">
           {CATEGORIAS.map((cat) => (
             <span
               key={cat.value}

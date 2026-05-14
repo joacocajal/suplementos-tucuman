@@ -30,7 +30,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
@@ -40,28 +40,28 @@ export default function Login() {
             className="h-16 w-auto mb-4"
             onError={(e) => (e.target.style.display = "none")}
           />
-          <h1 className="font-display text-3xl text-[#FAFAFA]">PANEL ADMIN</h1>
-          <p className="text-sm text-[#A1A1AA] mt-1">Suplementos Tucumán</p>
+          <h1 className="font-display text-3xl text-[#111111]">PANEL ADMIN</h1>
+          <p className="text-sm text-[#6B7280] mt-1">Suplementos Tucumán</p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-[#161616] border border-[#262626] rounded-2xl p-6 space-y-4"
+          className="bg-white border border-[#E5E7EB] rounded-2xl p-6 space-y-4 shadow-sm"
         >
           <div>
-            <label className="text-xs text-[#A1A1AA] mb-1.5 block">Email</label>
+            <label className="text-xs text-[#6B7280] mb-1.5 block">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="admin@suplementostuc.com"
-              className="w-full bg-[#0A0A0A] border border-[#262626] rounded-xl px-4 py-3 text-sm text-[#FAFAFA] placeholder-[#A1A1AA]/40 focus:outline-none focus:border-[#FF6B1A] transition-colors"
+              className="w-full bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-4 py-3 text-sm text-[#111111] placeholder-[#9CA3AF] focus:outline-none focus:border-[#FF6B1A] transition-colors"
             />
           </div>
 
           <div>
-            <label className="text-xs text-[#A1A1AA] mb-1.5 block">Contraseña</label>
+            <label className="text-xs text-[#6B7280] mb-1.5 block">Contraseña</label>
             <div className="relative">
               <input
                 type={showPass ? "text" : "password"}
@@ -69,12 +69,12 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full bg-[#0A0A0A] border border-[#262626] rounded-xl px-4 py-3 pr-10 text-sm text-[#FAFAFA] placeholder-[#A1A1AA]/40 focus:outline-none focus:border-[#FF6B1A] transition-colors"
+                className="w-full bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-4 py-3 pr-10 text-sm text-[#111111] placeholder-[#9CA3AF] focus:outline-none focus:border-[#FF6B1A] transition-colors"
               />
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] hover:text-[#FAFAFA]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#111111]"
               >
                 {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -82,7 +82,7 @@ export default function Login() {
           </div>
 
           {error && (
-            <p className="text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/20 rounded-lg px-3 py-2">
+            <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
               {error}
             </p>
           )}
