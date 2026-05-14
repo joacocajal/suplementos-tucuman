@@ -122,17 +122,17 @@ export default function CombosSection({ onOpenCheckout }) {
             </div>
 
             {/* Imagen */}
-            <div className="order-1 sm:order-2 flex-shrink-0 w-48 sm:w-64 flex items-center justify-center">
+            <div className="order-1 sm:order-2 flex-shrink-0 w-64 sm:w-80 flex items-center justify-center">
               {combo && getProductImage(combo) ? (
                 <img
                   src={getProductImage(combo)}
                   alt={combo.nombre}
                   className="w-full h-auto object-contain drop-shadow-2xl"
-                  style={{ maxHeight: "240px" }}
+                  style={{ maxHeight: "300px" }}
                 />
               ) : (
-                <div className="w-full h-40 rounded-xl bg-white/10 flex items-center justify-center">
-                  <span className="text-5xl">🎁</span>
+                <div className="w-full h-48 rounded-xl bg-white/10 flex items-center justify-center">
+                  <span className="text-6xl">🎁</span>
                 </div>
               )}
             </div>
