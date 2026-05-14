@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Minus, Plus, MessageCircle, Package } from "lucide-react";
+import { MessageCircle, Package, ArrowLeft, ShoppingCart } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { formatCurrency } from "../../lib/utils";
 import { getProductImage } from "../../lib/productImageMap";
@@ -22,12 +22,20 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
     onFlip(product.id);
   }
 
-  function handleReservar(e) {
+  function handleAddToCart(e) {
     e.stopPropagation();
     addItem(product, cantidad);
     onOpenCheckout?.();
     onFlip(null);
     setCantidad(1);
+  }
+
+  function handleWhatsApp(e) {
+    e.stopPropagation();
+    const msg = encodeURIComponent(
+      `Hola! Me interesa *${product.nombre}* x${cantidad} — ${formatCurrency(product.precio * cantidad)}`
+    );
+    window.open(`https://wa.me/5493815100725?text=${msg}`, "_blank", "noreferrer");
   }
 
   function handleVolver(e) {
@@ -125,58 +133,68 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
 
         {/* ── BACK ── */}
         <div className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl border border-[#FF6B1A]/30 bg-white overflow-hidden flex flex-col p-4 shadow-sm">
+          {/* Flechita volver */}
+          <button
+            onClick={handleVolver}
+            className="self-start flex items-center gap-1 text-xs text-[#9CA3AF] hover:text-[#FF6B1A] transition-colors mb-2"
+          >
+            <ArrowLeft size={14} />
+            Volver
+          </button>
+
           {/* Nombre */}
           <p className="font-bebas text-base text-[#111111] leading-tight mb-1 line-clamp-2">
             {product.nombre}
           </p>
           {product.descripcion && (
-            <p className="text-xs text-[#6B7280] mb-2 line-clamp-3 leading-snug">
+            <p className="text-xs text-[#6B7280] mb-1 line-clamp-2 leading-snug">
               {product.descripcion}
             </p>
           )}
           {isShaker && !product.descripcion && (
-            <p className="text-xs text-[#6B7280] mb-2">Consultar colores disponibles</p>
+            <p className="text-xs text-[#6B7280] mb-1">Consultar colores disponibles</p>
           )}
 
           {/* Selector cantidad */}
-          <div className="flex-1 flex flex-col items-center justify-center gap-3">
-            <p className="text-xs text-[#6B7280] uppercase tracking-wide">Cantidad</p>
-            <div className="flex items-center gap-4">
+          <div className="flex-1 flex flex-col items-center justify-center gap-2">
+            <p className="text-xs text-[#9CA3AF] uppercase tracking-wide">Cantidad</p>
+            <div className="flex items-center gap-3">
               <button
                 onClick={decrement}
-                className="w-9 h-9 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors text-lg font-bold"
+                className="w-8 h-8 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors text-lg font-bold"
               >
                 −
               </button>
-              <span className="w-10 text-center text-2xl font-bold text-[#111111]">
+              <span className="w-8 text-center text-xl font-bold text-[#111111]">
                 {cantidad}
               </span>
               <button
                 onClick={increment}
-                className="w-9 h-9 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors text-lg font-bold"
+                className="w-8 h-8 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors text-lg font-bold"
               >
                 +
               </button>
             </div>
-            <p className="text-lg font-bold text-[#FF6B1A]">
+            <p className="text-base font-bold text-[#FF6B1A]">
               {formatCurrency(product.precio * cantidad)}
             </p>
           </div>
 
-          {/* Botones */}
+          {/* 3 acciones */}
           <div className="space-y-2 mt-2">
             <button
-              onClick={handleReservar}
-              className="w-full flex items-center justify-center gap-2 bg-[#FF6B1A] hover:bg-[#FF8540] text-white font-bold py-3 rounded-xl transition-colors text-sm"
+              onClick={handleWhatsApp}
+              className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold py-2.5 rounded-xl transition-colors text-sm"
             >
-              <MessageCircle size={16} />
-              Reservar por WhatsApp
+              <MessageCircle size={15} />
+              Ir a WhatsApp
             </button>
             <button
-              onClick={handleVolver}
-              className="w-full text-xs text-[#6B7280] hover:text-[#111111] transition-colors py-1"
+              onClick={handleAddToCart}
+              className="w-full flex items-center justify-center gap-2 bg-[#FF6B1A] hover:bg-[#FF8540] text-white font-bold py-2.5 rounded-xl transition-colors text-sm"
             >
-              ← Volver
+              <ShoppingCart size={15} />
+              Agregar al carrito
             </button>
           </div>
         </div>
