@@ -61,28 +61,32 @@ export default function CombosSection({ onOpenCheckout }) {
         <div className="w-full h-72 rounded-2xl bg-[#FF6B1A]/20 animate-pulse" />
       ) : (
         <div
-          className="relative w-full rounded-2xl overflow-hidden"
-          style={{ background: "linear-gradient(135deg, #FF6B1A 0%, #e85a0a 100%)" }}
+          className="relative w-full rounded-2xl overflow-hidden min-h-[340px] sm:min-h-[400px]"
+          style={{ background: "#F07020" }}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
-          {/* Decoración fondo */}
-          <div className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage: "radial-gradient(circle at 80% 50%, #ffffff 0%, transparent 60%)",
-            }}
-          />
+          {/* Imagen — absoluta, ocupa toda la mitad derecha */}
+          {combo && getProductImage(combo) && (
+            <div className="absolute right-0 top-0 bottom-0 w-1/2 flex items-end justify-center pointer-events-none">
+              <img
+                src={getProductImage(combo)}
+                alt={combo.nombre}
+                className="h-full w-auto object-contain"
+                style={{ maxHeight: "420px" }}
+              />
+            </div>
+          )}
 
-          <div className="relative flex flex-col sm:flex-row items-center gap-6 px-8 py-8 sm:py-10 min-h-[280px]">
-            {/* Info */}
-            <div className="flex-1 text-white order-2 sm:order-1 text-center sm:text-left">
-              <span className="inline-block text-xs font-bold bg-white/20 border border-white/30 px-3 py-1 rounded-full mb-3 tracking-wider">
+          {/* Info — lado izquierdo */}
+          <div className="relative z-10 w-full sm:w-1/2 px-7 py-8 text-white flex flex-col justify-center min-h-[340px] sm:min-h-[400px]">
+              <span className="inline-block text-xs font-bold bg-white/20 border border-white/30 px-3 py-1 rounded-full mb-3 tracking-wider w-fit">
                 COMBO ESPECIAL
               </span>
               <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-1">
                 {combo?.nombre}
               </h3>
-              <p className="text-white/80 text-sm mb-4 line-clamp-2 max-w-xs">
+              <p className="text-white/80 text-sm mb-4 line-clamp-2 max-w-[240px]">
                 {combo?.descripcion}
               </p>
               <p className="text-4xl font-bold mb-5">
@@ -90,7 +94,7 @@ export default function CombosSection({ onOpenCheckout }) {
               </p>
 
               {/* Cantidad */}
-              <div className="flex items-center gap-3 mb-5 justify-center sm:justify-start">
+              <div className="flex items-center gap-3 mb-5">
                 <button
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
                   className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 text-white font-bold flex items-center justify-center transition-colors"
@@ -103,10 +107,10 @@ export default function CombosSection({ onOpenCheckout }) {
               </div>
 
               {/* Botones */}
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <div className="flex flex-col gap-2 w-fit">
                 <button
                   onClick={handleAddToCart}
-                  className="flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#FF6B1A] font-bold px-5 py-2.5 rounded-xl transition-all text-sm"
+                  className="flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#F07020] font-bold px-5 py-2.5 rounded-xl transition-all text-sm"
                 >
                   <ShoppingCart size={16} />
                   {added ? "¡Agregado!" : "Agregar al carrito"}
@@ -119,23 +123,6 @@ export default function CombosSection({ onOpenCheckout }) {
                   Ir a WhatsApp
                 </button>
               </div>
-            </div>
-
-            {/* Imagen */}
-            <div className="order-1 sm:order-2 flex-shrink-0 w-64 sm:w-80 flex items-center justify-center">
-              {combo && getProductImage(combo) ? (
-                <img
-                  src={getProductImage(combo)}
-                  alt={combo.nombre}
-                  className="w-full h-auto object-contain drop-shadow-2xl"
-                  style={{ maxHeight: "300px" }}
-                />
-              ) : (
-                <div className="w-full h-48 rounded-xl bg-white/10 flex items-center justify-center">
-                  <span className="text-6xl">🎁</span>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Flechas */}
