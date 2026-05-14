@@ -25,7 +25,6 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
   function handleAddToCart(e) {
     e.stopPropagation();
     addItem(product, cantidad);
-    onOpenCheckout?.();
     onFlip(null);
     setCantidad(1);
   }
