@@ -20,7 +20,7 @@ export const PRODUCT_IMAGE_MAP = {
   "Combo Star": "/productos/combo-star1.png",
   "Combo Creatina x2": "/productos/combo-creatina1.png",
   "Combo Star Premium": "/productos/combo-star-premium1.png",
-  "Combo Carrera": "/productos/combo-carrera.jpeg",
+  "Combo Carrera": "/productos/como-carrera1.png",
   "Combo Geles Mervick x12 + Regalo": "/productos/combo-geles-mervick1.png",
 };
 

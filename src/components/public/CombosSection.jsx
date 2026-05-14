@@ -62,7 +62,7 @@ export default function CombosSection({ onOpenCheckout }) {
       ) : (
         <div
           className="relative w-full rounded-2xl overflow-hidden min-h-[340px] sm:min-h-[400px]"
-          style={{ background: "#F07020" }}
+          style={{ background: "#F26522" }}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
@@ -110,7 +110,7 @@ export default function CombosSection({ onOpenCheckout }) {
               <div className="flex flex-col gap-2 w-fit">
                 <button
                   onClick={handleAddToCart}
-                  className="flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#F07020] font-bold px-5 py-2.5 rounded-xl transition-all text-sm"
+                  className="flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#F26522] font-bold px-5 py-2.5 rounded-xl transition-all text-sm"
                 >
                   <ShoppingCart size={16} />
                   {added ? "¡Agregado!" : "Agregar al carrito"}
@@ -125,40 +125,39 @@ export default function CombosSection({ onOpenCheckout }) {
               </div>
           </div>
 
-          {/* Flechas */}
-          {destacados.length > 1 && (
-            <>
-              <button
-                onClick={prev}
-                aria-label="Anterior"
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors"
-              >
-                <ChevronLeft size={20} className="text-white" />
-              </button>
-              <button
-                onClick={next}
-                aria-label="Siguiente"
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors"
-              >
-                <ChevronRight size={20} className="text-white" />
-              </button>
-            </>
-          )}
         </div>
       )}
 
-      {/* Dots */}
+      {/* Navegación: flechas + dots abajo */}
       {!loading && destacados.length > 1 && (
-        <div className="flex justify-center gap-2 mt-4">
-          {destacados.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === current ? "w-6 h-2 bg-[#FF6B1A]" : "w-2 h-2 bg-[#D1D5DB] hover:bg-[#FF6B1A]/50"
-              }`}
-            />
-          ))}
+        <div className="flex items-center justify-center gap-4 mt-4">
+          <button
+            onClick={prev}
+            aria-label="Anterior"
+            className="w-8 h-8 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#F26522] flex items-center justify-center transition-all"
+          >
+            <ChevronLeft size={16} className="text-[#111111]" />
+          </button>
+
+          <div className="flex items-center gap-2">
+            {destacados.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  i === current ? "w-6 h-2 bg-[#F26522]" : "w-2 h-2 bg-[#D1D5DB] hover:bg-[#F26522]/50"
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={next}
+            aria-label="Siguiente"
+            className="w-8 h-8 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#F26522] flex items-center justify-center transition-all"
+          >
+            <ChevronRight size={16} className="text-[#111111]" />
+          </button>
         </div>
       )}
     </section>
