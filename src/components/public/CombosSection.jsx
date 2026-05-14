@@ -1,30 +1,31 @@
 import { useState, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShoppingCart, MessageCircle } from "lucide-react";
 import { useProducts } from "../../hooks/useProducts";
-import ProductCard from "./ProductCard";
+import { getProductImage } from "../../lib/productImageMap";
+import { formatCurrency } from "../../lib/utils";
+import useCartStore from "../../store/cartStore";
 
 export default function CombosSection({ onOpenCheckout }) {
-  const [flippedId, setFlippedId] = useState(null);
   const [current, setCurrent] = useState(0);
+  const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
   const touchStart = useRef(0);
-  const { products: combos, loading } = useProducts({ categoria: "combos" });
+  const addItem = useCartStore((s) => s.addItem);
 
+  const { products: combos, loading } = useProducts({ categoria: "combos" });
   const destacados = combos.filter((c) => c.destacado);
 
   if (!loading && destacados.length === 0) return null;
 
-  function handleFlip(id) {
-    setFlippedId((prev) => (prev === id ? null : id));
-  }
+  const combo = destacados[current];
 
-  const prev = () => {
-    setFlippedId(null);
-    setCurrent((c) => (c - 1 + destacados.length) % destacados.length);
-  };
-  const next = () => {
-    setFlippedId(null);
-    setCurrent((c) => (c + 1) % destacados.length);
-  };
+  function goTo(i) {
+    setCurrent(i);
+    setQty(1);
+    setAdded(false);
+  }
+  const prev = () => goTo((current - 1 + destacados.length) % destacados.length);
+  const next = () => goTo((current + 1) % destacados.length);
 
   function onTouchStart(e) { touchStart.current = e.touches[0].clientX; }
   function onTouchEnd(e) {
@@ -32,9 +33,24 @@ export default function CombosSection({ onOpenCheckout }) {
     if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
   }
 
+  function handleAddToCart() {
+    if (!combo) return;
+    addItem(combo, qty);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  }
+
+  function handleWhatsApp() {
+    if (!combo) return;
+    const msg = encodeURIComponent(
+      `Hola! Me interesa *${combo.nombre}* x${qty} — ${formatCurrency(combo.precio * qty)}`
+    );
+    window.open(`https://wa.me/5493815100725?text=${msg}`, "_blank", "noreferrer");
+  }
+
   return (
     <section className="py-10">
-      <div className="mb-8 text-center">
+      <div className="mb-6 text-center">
         <h2 className="font-display text-3xl md:text-4xl text-[#111111]">
           COMBOS Y <span className="text-[#FF6B1A]">PROMOS</span>
         </h2>
@@ -42,59 +58,117 @@ export default function CombosSection({ onOpenCheckout }) {
       </div>
 
       {loading ? (
-        <div className="flex justify-center">
-          <div className="w-64 aspect-[3/4] rounded-2xl border border-[#E5E7EB] bg-white animate-pulse shadow-sm" />
-        </div>
+        <div className="w-full h-72 rounded-2xl bg-[#FF6B1A]/20 animate-pulse" />
       ) : (
-        <div className="relative flex items-center justify-center gap-4">
-          {/* Flecha izquierda */}
-          <button
-            onClick={prev}
-            aria-label="Anterior"
-            className="flex-shrink-0 w-10 h-10 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FF6B1A] hover:shadow-md flex items-center justify-center transition-all"
-          >
-            <ChevronLeft size={20} className="text-[#111111]" />
-          </button>
+        <div
+          className="relative w-full rounded-2xl overflow-hidden"
+          style={{ background: "linear-gradient(135deg, #FF6B1A 0%, #e85a0a 100%)" }}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          {/* Decoración fondo */}
+          <div className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: "radial-gradient(circle at 80% 50%, #ffffff 0%, transparent 60%)",
+            }}
+          />
 
-          {/* Card único */}
-          <div
-            className="w-64 sm:w-72"
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          >
-            {destacados[current] && (
-              <ProductCard
-                key={destacados[current].id}
-                product={destacados[current]}
-                flipped={flippedId === destacados[current].id}
-                onFlip={handleFlip}
-                onOpenCheckout={onOpenCheckout}
-              />
-            )}
+          <div className="relative flex flex-col sm:flex-row items-center gap-6 px-8 py-8 sm:py-10 min-h-[280px]">
+            {/* Info */}
+            <div className="flex-1 text-white order-2 sm:order-1 text-center sm:text-left">
+              <span className="inline-block text-xs font-bold bg-white/20 border border-white/30 px-3 py-1 rounded-full mb-3 tracking-wider">
+                COMBO ESPECIAL
+              </span>
+              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-1">
+                {combo?.nombre}
+              </h3>
+              <p className="text-white/80 text-sm mb-4 line-clamp-2 max-w-xs">
+                {combo?.descripcion}
+              </p>
+              <p className="text-4xl font-bold mb-5">
+                {combo ? formatCurrency(combo.precio * qty) : ""}
+              </p>
+
+              {/* Cantidad */}
+              <div className="flex items-center gap-3 mb-5 justify-center sm:justify-start">
+                <button
+                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 text-white font-bold flex items-center justify-center transition-colors"
+                >−</button>
+                <span className="text-xl font-bold w-6 text-center">{qty}</span>
+                <button
+                  onClick={() => setQty((q) => Math.min(combo?.stock || 99, q + 1))}
+                  className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 text-white font-bold flex items-center justify-center transition-colors"
+                >+</button>
+              </div>
+
+              {/* Botones */}
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <button
+                  onClick={handleAddToCart}
+                  className="flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#FF6B1A] font-bold px-5 py-2.5 rounded-xl transition-all text-sm"
+                >
+                  <ShoppingCart size={16} />
+                  {added ? "¡Agregado!" : "Agregar al carrito"}
+                </button>
+                <button
+                  onClick={handleWhatsApp}
+                  className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-5 py-2.5 rounded-xl transition-colors text-sm"
+                >
+                  <MessageCircle size={16} />
+                  Ir a WhatsApp
+                </button>
+              </div>
+            </div>
+
+            {/* Imagen */}
+            <div className="order-1 sm:order-2 flex-shrink-0 w-48 sm:w-64 flex items-center justify-center">
+              {combo && getProductImage(combo) ? (
+                <img
+                  src={getProductImage(combo)}
+                  alt={combo.nombre}
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                  style={{ maxHeight: "240px" }}
+                />
+              ) : (
+                <div className="w-full h-40 rounded-xl bg-white/10 flex items-center justify-center">
+                  <span className="text-5xl">🎁</span>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Flecha derecha */}
-          <button
-            onClick={next}
-            aria-label="Siguiente"
-            className="flex-shrink-0 w-10 h-10 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FF6B1A] hover:shadow-md flex items-center justify-center transition-all"
-          >
-            <ChevronRight size={20} className="text-[#111111]" />
-          </button>
+          {/* Flechas */}
+          {destacados.length > 1 && (
+            <>
+              <button
+                onClick={prev}
+                aria-label="Anterior"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors"
+              >
+                <ChevronLeft size={20} className="text-white" />
+              </button>
+              <button
+                onClick={next}
+                aria-label="Siguiente"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors"
+              >
+                <ChevronRight size={20} className="text-white" />
+              </button>
+            </>
+          )}
         </div>
       )}
 
       {/* Dots */}
       {!loading && destacados.length > 1 && (
-        <div className="flex justify-center gap-2 mt-5">
+        <div className="flex justify-center gap-2 mt-4">
           {destacados.map((_, i) => (
             <button
               key={i}
-              onClick={() => { setFlippedId(null); setCurrent(i); }}
+              onClick={() => goTo(i)}
               className={`rounded-full transition-all duration-300 ${
-                i === current
-                  ? "w-6 h-2 bg-[#FF6B1A]"
-                  : "w-2 h-2 bg-[#D1D5DB] hover:bg-[#FF6B1A]/50"
+                i === current ? "w-6 h-2 bg-[#FF6B1A]" : "w-2 h-2 bg-[#D1D5DB] hover:bg-[#FF6B1A]/50"
               }`}
             />
           ))}
