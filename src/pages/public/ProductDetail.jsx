@@ -15,12 +15,12 @@ function Skeleton() {
   return (
     <div className="animate-pulse">
       <div className="grid md:grid-cols-2 gap-10 mb-16">
-        <div className="aspect-square bg-[#161616] rounded-2xl" />
+        <div className="aspect-square bg-[#F5F5F5] rounded-2xl" />
         <div className="space-y-4 py-4">
-          <div className="h-4 bg-[#161616] rounded w-1/4" />
-          <div className="h-8 bg-[#161616] rounded w-3/4" />
-          <div className="h-6 bg-[#161616] rounded w-1/3" />
-          <div className="h-20 bg-[#161616] rounded" />
+          <div className="h-4 bg-[#F0F0F0] rounded w-1/4" />
+          <div className="h-8 bg-[#F0F0F0] rounded w-3/4" />
+          <div className="h-6 bg-[#F0F0F0] rounded w-1/3" />
+          <div className="h-20 bg-[#F0F0F0] rounded" />
         </div>
       </div>
     </div>
@@ -58,12 +58,12 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm text-[#A1A1AA] hover:text-[#FAFAFA] mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-[#6B7280] hover:text-[#111111] mb-8 transition-colors"
         >
           <ArrowLeft size={16} />
           Volver al catálogo
@@ -73,7 +73,7 @@ export default function ProductDetail() {
           <Skeleton />
         ) : !product ? (
           <div className="text-center py-20">
-            <p className="text-[#A1A1AA]">Producto no encontrado</p>
+            <p className="text-[#6B7280]">Producto no encontrado</p>
             <Link to="/" className="text-[#FF6B1A] mt-3 inline-block hover:underline">
               Volver al inicio
             </Link>
@@ -82,7 +82,7 @@ export default function ProductDetail() {
           <>
             <div className="grid md:grid-cols-2 gap-10 mb-16">
               {/* Imagen */}
-              <div className="aspect-square rounded-2xl overflow-hidden bg-[#161616] border border-[#262626] flex items-center justify-center">
+              <div className="aspect-square rounded-2xl overflow-hidden bg-[#F8F8F8] border border-[#E5E7EB] flex items-center justify-center">
                 {imgSrc && !imgError ? (
                   <img
                     src={imgSrc}
@@ -91,7 +91,7 @@ export default function ProductDetail() {
                     onError={() => setImgError(true)}
                   />
                 ) : (
-                  <span className="text-8xl text-[#333]">{cat?.icon || "📦"}</span>
+                  <span className="text-8xl text-[#D1D5DB]">{cat?.icon || "📦"}</span>
                 )}
               </div>
 
@@ -103,7 +103,7 @@ export default function ProductDetail() {
                   </span>
                 )}
 
-                <h1 className="text-2xl sm:text-3xl font-bold text-[#FAFAFA] mb-3 leading-snug">
+                <h1 className="text-2xl sm:text-3xl font-bold text-[#111111] mb-3 leading-snug">
                   {product.nombre}
                 </h1>
 
@@ -112,7 +112,7 @@ export default function ProductDetail() {
                 </p>
 
                 {product.descripcion && (
-                  <p className="text-[#A1A1AA] text-sm leading-relaxed mb-6">
+                  <p className="text-[#6B7280] text-sm leading-relaxed mb-6">
                     {product.descripcion}
                   </p>
                 )}
@@ -130,18 +130,18 @@ export default function ProductDetail() {
                 {!sinStock && (
                   <>
                     <div className="flex items-center gap-4 mb-6">
-                      <span className="text-sm text-[#A1A1AA]">Cantidad:</span>
+                      <span className="text-sm text-[#6B7280]">Cantidad:</span>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setCantidad((q) => Math.max(1, q - 1))}
-                          className="w-9 h-9 rounded-xl bg-[#161616] border border-[#262626] hover:border-[#FF6B1A] text-[#FAFAFA] flex items-center justify-center transition-colors"
+                          className="w-9 h-9 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors"
                         >
                           <Minus size={16} />
                         </button>
-                        <span className="w-12 text-center font-semibold text-[#FAFAFA]">{cantidad}</span>
+                        <span className="w-12 text-center font-semibold text-[#111111]">{cantidad}</span>
                         <button
                           onClick={() => setCantidad((q) => Math.min(product.stock, q + 1))}
-                          className="w-9 h-9 rounded-xl bg-[#161616] border border-[#262626] hover:border-[#FF6B1A] text-[#FAFAFA] flex items-center justify-center transition-colors"
+                          className="w-9 h-9 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors"
                         >
                           <Plus size={16} />
                         </button>
@@ -161,7 +161,7 @@ export default function ProductDetail() {
 
                     <button
                       onClick={handleAdd}
-                      className="flex items-center justify-center gap-2 bg-transparent border border-[#262626] hover:border-[#FF6B1A] text-[#A1A1AA] hover:text-[#FAFAFA] font-semibold py-3 rounded-xl transition-colors text-sm"
+                      className="flex items-center justify-center gap-2 bg-white border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#6B7280] hover:text-[#111111] font-semibold py-3 rounded-xl transition-colors text-sm"
                     >
                       <ShoppingCart size={16} />
                       Agregar al carrito y seguir comprando
@@ -173,7 +173,7 @@ export default function ProductDetail() {
 
             {related.length > 0 && (
               <section>
-                <h2 className="font-display text-2xl text-[#FAFAFA] mb-6">
+                <h2 className="font-display text-2xl text-[#111111] mb-6">
                   TAMBIÉN TE PUEDE INTERESAR
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

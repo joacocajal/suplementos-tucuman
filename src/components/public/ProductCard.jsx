@@ -62,11 +62,11 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
       >
         {/* ── FRONT ── */}
         <div className={cn(
-          "absolute inset-0 [backface-visibility:hidden] rounded-2xl border bg-[#161616] overflow-hidden flex flex-col transition-colors duration-200",
-          sinStock ? "border-[#262626] opacity-60" : flipped ? "border-[#FF6B1A]/40" : "border-[#262626] hover:border-[#FF6B1A]"
+          "absolute inset-0 [backface-visibility:hidden] rounded-2xl border bg-white overflow-hidden flex flex-col transition-colors duration-200 shadow-sm",
+          sinStock ? "border-[#E5E7EB] opacity-60" : flipped ? "border-[#FF6B1A]/40" : "border-[#E5E7EB] hover:border-[#FF6B1A]"
         )}>
           {/* Imagen */}
-          <div className="relative flex-1 bg-[#111] flex items-center justify-center overflow-hidden">
+          <div className="relative flex-1 bg-[#F8F8F8] flex items-center justify-center overflow-hidden">
             {imgSrc && !imgError ? (
               <img
                 src={imgSrc}
@@ -75,20 +75,20 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
                 onError={() => setImgError(true)}
               />
             ) : (
-              <span className="text-5xl text-[#333]">{cat?.icon || "📦"}</span>
+              <span className="text-5xl text-[#D1D5DB]">{cat?.icon || "📦"}</span>
             )}
 
             {/* Badge categoría */}
             {cat && (
-              <span className="absolute top-2 left-2 text-xs bg-[#FF6B1A]/20 text-[#FF6B1A] border border-[#FF6B1A]/30 px-2 py-0.5 rounded-full">
+              <span className="absolute top-2 left-2 text-xs bg-[#FF6B1A]/10 text-[#FF6B1A] border border-[#FF6B1A]/20 px-2 py-0.5 rounded-full">
                 {cat.label}
               </span>
             )}
 
             {/* Sin stock overlay */}
             {sinStock && (
-              <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
-                <span className="text-sm font-semibold text-[#A1A1AA] border border-[#A1A1AA]/30 px-3 py-1 rounded-full">
+              <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                <span className="text-sm font-semibold text-[#6B7280] border border-[#D1D5DB] px-3 py-1 rounded-full">
                   SIN STOCK
                 </span>
               </div>
@@ -97,44 +97,44 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
 
           {/* Info */}
           <div className="px-3 py-3 space-y-1">
-            <h3 className="text-sm font-medium text-[#FAFAFA] line-clamp-2 leading-snug">
+            <h3 className="text-sm font-medium text-[#111111] line-clamp-2 leading-snug">
               {product.nombre}
             </h3>
             <p className="text-base font-bold text-[#FF6B1A]">
               {formatCurrency(product.precio)}
             </p>
             {isShaker && (
-              <p className="text-xs text-[#A1A1AA]">Consultar colores</p>
+              <p className="text-xs text-[#6B7280]">Consultar colores</p>
             )}
           </div>
         </div>
 
         {/* ── BACK ── */}
-        <div className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl border border-[#FF6B1A]/30 bg-[#0F0F0F] overflow-hidden flex flex-col p-4">
+        <div className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-2xl border border-[#FF6B1A]/30 bg-white overflow-hidden flex flex-col p-4 shadow-sm">
           {/* Nombre */}
-          <p className="font-bebas text-base text-[#FAFAFA] leading-tight mb-3 line-clamp-2">
+          <p className="font-bebas text-base text-[#111111] leading-tight mb-3 line-clamp-2">
             {product.nombre}
           </p>
           {isShaker && (
-            <p className="text-xs text-[#A1A1AA] mb-2">Consultar colores disponibles</p>
+            <p className="text-xs text-[#6B7280] mb-2">Consultar colores disponibles</p>
           )}
 
           {/* Selector cantidad */}
           <div className="flex-1 flex flex-col items-center justify-center gap-3">
-            <p className="text-xs text-[#A1A1AA] uppercase tracking-wide">Cantidad</p>
+            <p className="text-xs text-[#6B7280] uppercase tracking-wide">Cantidad</p>
             <div className="flex items-center gap-4">
               <button
                 onClick={decrement}
-                className="w-9 h-9 rounded-xl bg-[#161616] border border-[#262626] hover:border-[#FF6B1A] text-[#FAFAFA] flex items-center justify-center transition-colors text-lg font-bold"
+                className="w-9 h-9 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors text-lg font-bold"
               >
                 −
               </button>
-              <span className="w-10 text-center text-2xl font-bold text-[#FAFAFA]">
+              <span className="w-10 text-center text-2xl font-bold text-[#111111]">
                 {cantidad}
               </span>
               <button
                 onClick={increment}
-                className="w-9 h-9 rounded-xl bg-[#161616] border border-[#262626] hover:border-[#FF6B1A] text-[#FAFAFA] flex items-center justify-center transition-colors text-lg font-bold"
+                className="w-9 h-9 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] flex items-center justify-center transition-colors text-lg font-bold"
               >
                 +
               </button>
@@ -155,7 +155,7 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
             </button>
             <button
               onClick={handleVolver}
-              className="w-full text-xs text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors py-1"
+              className="w-full text-xs text-[#6B7280] hover:text-[#111111] transition-colors py-1"
             >
               ← Volver
             </button>

@@ -14,16 +14,16 @@ export default function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,26,0.12) 0%, transparent 60%), #0A0A0A",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,26,0.10) 0%, transparent 60%), #ffffff",
         }}
       />
 
       {/* Grid pattern sutil */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.5]"
         style={{
           backgroundImage:
-            "linear-gradient(#FAFAFA 1px, transparent 1px), linear-gradient(90deg, #FAFAFA 1px, transparent 1px)",
+            "linear-gradient(#F0F0F0 1px, transparent 1px), linear-gradient(90deg, #F0F0F0 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       />
@@ -36,7 +36,7 @@ export default function Hero() {
         </div>
 
         {/* Título */}
-        <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#FAFAFA] leading-none tracking-wide mb-6">
+        <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#111111] leading-none tracking-wide mb-6">
           TU MEJOR{" "}
           <span className="text-[#FF6B1A]">VERSIÓN</span>
           <br />
@@ -44,7 +44,7 @@ export default function Hero() {
         </h1>
 
         {/* Subtítulo */}
-        <p className="text-[#A1A1AA] text-lg sm:text-xl max-w-xl mx-auto mb-10">
+        <p className="text-[#6B7280] text-lg sm:text-xl max-w-xl mx-auto mb-10">
           Suplementos deportivos en Tucumán. Proteínas, creatinas, vitaminas y más. Pedí por WhatsApp.
         </p>
 
@@ -61,7 +61,7 @@ export default function Hero() {
             href="https://wa.me/5493815100725"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2 bg-[#161616] hover:bg-[#1a1a1a] border border-[#262626] hover:border-[#FF6B1A] text-[#FAFAFA] font-bold px-8 py-4 rounded-xl text-base transition-colors w-full sm:w-auto"
+            className="flex items-center gap-2 bg-white hover:bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] text-[#111111] font-bold px-8 py-4 rounded-xl text-base transition-colors w-full sm:w-auto"
           >
             <MessageCircle size={18} />
             Consultar
@@ -73,7 +73,7 @@ export default function Hero() {
           {CATEGORIAS.map((cat) => (
             <span
               key={cat.value}
-              className="text-xs text-[#A1A1AA]/60 bg-[#161616] border border-[#262626] px-3 py-1 rounded-full"
+              className="text-xs text-[#6B7280] bg-white border border-[#E5E7EB] px-3 py-1 rounded-full"
             >
               {cat.icon} {cat.label}
             </span>

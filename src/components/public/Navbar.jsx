@@ -27,7 +27,7 @@ export default function Navbar({ onCartSuccess }) {
 
   return (
     <>
-      <nav className="sticky top-0 z-30 bg-[#0A0A0A]/95 backdrop-blur-sm border-b border-[#262626]">
+      <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-[#E5E7EB]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -42,7 +42,7 @@ export default function Navbar({ onCartSuccess }) {
                 }}
               />
               <span
-                className="font-display text-xl text-[#FAFAFA] hidden"
+                className="font-display text-xl text-[#111111] hidden"
                 style={{ display: "none" }}
               >
                 SUPLEMENTOS TUC
@@ -55,7 +55,7 @@ export default function Navbar({ onCartSuccess }) {
                 <button
                   key={l.to}
                   onClick={() => handleNavClick(l.to)}
-                  className="text-sm font-medium text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                  className="text-sm font-medium text-[#6B7280] hover:text-[#111111] transition-colors"
                 >
                   {l.label}
                 </button>
@@ -66,9 +66,9 @@ export default function Navbar({ onCartSuccess }) {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#161616] border border-[#262626] hover:border-[#FF6B1A] transition-colors"
+                className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] hover:border-[#FF6B1A] transition-colors"
               >
-                <ShoppingCart size={18} className="text-[#FAFAFA]" />
+                <ShoppingCart size={18} className="text-[#111111]" />
                 {count > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 bg-[#FF6B1A] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
                     {count > 9 ? "9+" : count}
@@ -77,7 +77,7 @@ export default function Navbar({ onCartSuccess }) {
               </button>
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden w-10 h-10 rounded-xl bg-[#161616] border border-[#262626] flex items-center justify-center text-[#FAFAFA] hover:border-[#FF6B1A] transition-colors"
+                className="md:hidden w-10 h-10 rounded-xl bg-[#F5F5F5] border border-[#E5E7EB] flex items-center justify-center text-[#111111] hover:border-[#FF6B1A] transition-colors"
               >
                 {menuOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
@@ -87,12 +87,12 @@ export default function Navbar({ onCartSuccess }) {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-[#262626] bg-[#0A0A0A] px-4 py-3 space-y-1">
+          <div className="md:hidden border-t border-[#E5E7EB] bg-white px-4 py-3 space-y-1">
             {links.map((l) => (
               <button
                 key={l.to}
                 onClick={() => handleNavClick(l.to)}
-                className="block w-full text-left px-3 py-2 text-sm font-medium text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#161616] rounded-lg transition-colors"
+                className="block w-full text-left px-3 py-2 text-sm font-medium text-[#6B7280] hover:text-[#111111] hover:bg-[#F5F5F5] rounded-lg transition-colors"
               >
                 {l.label}
               </button>

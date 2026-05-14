@@ -4,6 +4,13 @@ import Hero from "../../components/public/Hero";
 import ProductGrid from "../../components/public/ProductGrid";
 import Footer from "../../components/public/Footer";
 import CheckoutModal from "../../components/public/CheckoutModal";
+import PromoCarousel from "../../components/public/PromoCarousel";
+
+// Agregá las rutas de las promos acá cuando las subas a /public/promos/
+const PROMOS = [
+  // "/promos/promo1.jpg",
+  // "/promos/promo2.jpg",
+];
 
 function Toast({ toasts }) {
   return (
@@ -35,10 +42,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
+    <div className="min-h-screen bg-white">
       <Navbar
         onCartSuccess={() => showToast({ type: "success", message: "¡Pedido enviado! Tomás te va a contactar." })}
       />
+      <PromoCarousel images={PROMOS} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Hero />
         <ProductGrid
