@@ -1,21 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useProducts } from "../../hooks/useProducts";
 import ProductCard from "./ProductCard";
 
-function ComboSkeleton() {
-  return (
-    <div className="rounded-2xl border border-[#E5E7EB] bg-white overflow-hidden animate-pulse aspect-[3/4] shadow-sm flex-shrink-0 w-44 sm:w-52">
-      <div className="h-3/4 bg-[#F5F5F5]" />
-      <div className="p-3 space-y-2">
-        <div className="h-3 bg-[#F0F0F0] rounded w-3/4" />
-        <div className="h-3 bg-[#F0F0F0] rounded w-1/2" />
-      </div>
-    </div>
-  );
-}
-
 export default function CombosSection({ onOpenCheckout }) {
   const [flippedId, setFlippedId] = useState(null);
+  const [current, setCurrent] = useState(0);
+  const touchStart = useRef(0);
   const { products: combos, loading } = useProducts({ categoria: "combos" });
 
   const destacados = combos.filter((c) => c.destacado);
@@ -26,9 +17,24 @@ export default function CombosSection({ onOpenCheckout }) {
     setFlippedId((prev) => (prev === id ? null : id));
   }
 
+  const prev = () => {
+    setFlippedId(null);
+    setCurrent((c) => (c - 1 + destacados.length) % destacados.length);
+  };
+  const next = () => {
+    setFlippedId(null);
+    setCurrent((c) => (c + 1) % destacados.length);
+  };
+
+  function onTouchStart(e) { touchStart.current = e.touches[0].clientX; }
+  function onTouchEnd(e) {
+    const diff = touchStart.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+  }
+
   return (
     <section className="py-10">
-      <div className="mb-6">
+      <div className="mb-8 text-center">
         <h2 className="font-display text-3xl md:text-4xl text-[#111111]">
           COMBOS Y <span className="text-[#FF6B1A]">PROMOS</span>
         </h2>
@@ -36,18 +42,60 @@ export default function CombosSection({ onOpenCheckout }) {
       </div>
 
       {loading ? (
-        <div className="flex gap-4 overflow-x-auto scrollbar-none pb-2">
-          {Array.from({ length: 4 }).map((_, i) => <ComboSkeleton key={i} />)}
+        <div className="flex justify-center">
+          <div className="w-64 aspect-[3/4] rounded-2xl border border-[#E5E7EB] bg-white animate-pulse shadow-sm" />
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {destacados.map((p) => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              flipped={flippedId === p.id}
-              onFlip={handleFlip}
-              onOpenCheckout={onOpenCheckout}
+        <div className="relative flex items-center justify-center gap-4">
+          {/* Flecha izquierda */}
+          <button
+            onClick={prev}
+            aria-label="Anterior"
+            className="flex-shrink-0 w-10 h-10 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FF6B1A] hover:shadow-md flex items-center justify-center transition-all"
+          >
+            <ChevronLeft size={20} className="text-[#111111]" />
+          </button>
+
+          {/* Card único */}
+          <div
+            className="w-64 sm:w-72"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
+            {destacados[current] && (
+              <ProductCard
+                key={destacados[current].id}
+                product={destacados[current]}
+                flipped={flippedId === destacados[current].id}
+                onFlip={handleFlip}
+                onOpenCheckout={onOpenCheckout}
+              />
+            )}
+          </div>
+
+          {/* Flecha derecha */}
+          <button
+            onClick={next}
+            aria-label="Siguiente"
+            className="flex-shrink-0 w-10 h-10 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FF6B1A] hover:shadow-md flex items-center justify-center transition-all"
+          >
+            <ChevronRight size={20} className="text-[#111111]" />
+          </button>
+        </div>
+      )}
+
+      {/* Dots */}
+      {!loading && destacados.length > 1 && (
+        <div className="flex justify-center gap-2 mt-5">
+          {destacados.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setFlippedId(null); setCurrent(i); }}
+              className={`rounded-full transition-all duration-300 ${
+                i === current
+                  ? "w-6 h-2 bg-[#FF6B1A]"
+                  : "w-2 h-2 bg-[#D1D5DB] hover:bg-[#FF6B1A]/50"
+              }`}
             />
           ))}
         </div>

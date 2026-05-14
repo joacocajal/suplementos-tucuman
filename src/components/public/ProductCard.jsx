@@ -117,7 +117,7 @@ export default function ProductCard({ product, flipped, onFlip, onOpenCheckout }
           </div>
 
           {/* Info */}
-          <div className="px-3 py-3 space-y-1">
+          <div className="px-3 py-3 space-y-1 text-center">
             <h3 className="text-sm font-medium text-[#111111] line-clamp-2 leading-snug">
               {product.nombre}
             </h3>
