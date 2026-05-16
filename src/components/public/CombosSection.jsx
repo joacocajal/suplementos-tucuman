@@ -23,7 +23,7 @@ export default function CombosSection({ onOpenCheckout }) {
     "/productos/banner2.1.png",
     "/productos/banner3.1.png",
     "/productos/banner4.1.png",
-    "/productos/banner5.png",
+    "/productos/banner5.1.png",
   ];
   const bannerSrc = BANNERS[current % BANNERS.length];
 
