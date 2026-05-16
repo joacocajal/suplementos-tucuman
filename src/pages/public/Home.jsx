@@ -4,16 +4,7 @@ import Hero from "../../components/public/Hero";
 import ProductGrid from "../../components/public/ProductGrid";
 import Footer from "../../components/public/Footer";
 import CheckoutModal from "../../components/public/CheckoutModal";
-import PromoCarousel from "../../components/public/PromoCarousel";
 import CombosSection from "../../components/public/CombosSection";
-
-const PROMOS = [
-  "/productos/banner1.png",
-  "/productos/banner2.png",
-  "/productos/banner3.png",
-  "/productos/banner4.png",
-  "/productos/banner5.png",
-];
 
 function Toast({ toasts }) {
   return (
@@ -49,10 +40,9 @@ export default function Home() {
       <Navbar
         onCartSuccess={() => showToast({ type: "success", message: "¡Pedido enviado! Tomás te va a contactar." })}
       />
-      <PromoCarousel images={PROMOS} />
+      <CombosSection onOpenCheckout={() => setCheckoutOpen(true)} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Hero />
-        <CombosSection onOpenCheckout={() => setCheckoutOpen(true)} />
         <ProductGrid
           onAddToast={showToast}
           onOpenCheckout={() => setCheckoutOpen(true)}

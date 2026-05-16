@@ -18,6 +18,7 @@ export default function CombosSection({ onOpenCheckout }) {
   if (!loading && destacados.length === 0) return null;
 
   const combo = destacados[current];
+  const bannerSrc = `/productos/banner${(current % 5) + 1}.png`;
 
   function goTo(i) {
     setCurrent(i);
@@ -48,116 +49,129 @@ export default function CombosSection({ onOpenCheckout }) {
     window.open(`https://wa.me/5493815100725?text=${msg}`, "_blank", "noreferrer");
   }
 
+  if (loading) {
+    return <div className="w-full animate-pulse bg-[#F26522]/20" style={{ height: "clamp(280px, 45vw, 560px)" }} />;
+  }
+
   return (
-    <section className="py-10">
-      <div className="mb-6 text-center">
-        <h2 className="font-display text-3xl md:text-4xl text-[#111111]">
-          COMBOS Y <span className="text-[#FF6B1A]">PROMOS</span>
-        </h2>
-        <p className="text-[#6B7280] text-sm mt-1">Packs a precio especial. Ahorrá comprando combinado.</p>
+    <section
+      className="relative w-full overflow-hidden"
+      style={{ minHeight: "clamp(280px, 45vw, 560px)" }}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Fondo izquierdo: banner con overlay oscuro */}
+      <div
+        className="absolute inset-y-0 left-0 right-0 sm:right-[45%]"
+        style={{
+          backgroundImage: `url(${bannerSrc})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/55" />
       </div>
 
-      {loading ? (
-        <div className="w-full h-72 rounded-2xl bg-[#FF6B1A]/20 animate-pulse" />
-      ) : (
-        <div
-          className="relative w-full rounded-2xl overflow-hidden min-h-[340px] sm:min-h-[400px]"
-          style={{ background: "#F26522" }}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
-          {/* Imagen — absoluta, ocupa toda la mitad derecha */}
-          {combo && getProductImage(combo) && (
-            <div className="absolute right-0 top-0 bottom-0 w-1/2 flex items-end justify-center pointer-events-none">
-              <img
-                src={getProductImage(combo)}
-                alt={combo.nombre}
-                className="h-full w-auto object-contain"
-                style={{ maxHeight: "420px" }}
-              />
-            </div>
-          )}
+      {/* Fondo derecho: naranja (solo desktop) */}
+      <div className="absolute inset-y-0 right-0 left-[55%] bg-[#F26522] hidden sm:block" />
 
-          {/* Info — lado izquierdo */}
-          <div className="relative z-10 w-full sm:w-1/2 px-7 py-8 text-white flex flex-col justify-center min-h-[340px] sm:min-h-[400px]">
-              <span className="inline-block text-xs font-bold bg-white/20 border border-white/30 px-3 py-1 rounded-full mb-3 tracking-wider w-fit">
-                COMBO ESPECIAL
-              </span>
-              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-1">
-                {combo?.nombre}
-              </h3>
-              <p className="text-white/80 text-sm mb-4 line-clamp-2 max-w-[240px]">
-                {combo?.descripcion}
-              </p>
-              <p className="text-4xl font-bold mb-5">
-                {combo ? formatCurrency(combo.precio * qty) : ""}
-              </p>
-
-              {/* Cantidad */}
-              <div className="flex items-center gap-3 mb-5">
-                <button
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 text-white font-bold flex items-center justify-center transition-colors"
-                >−</button>
-                <span className="text-xl font-bold w-6 text-center">{qty}</span>
-                <button
-                  onClick={() => setQty((q) => Math.min(combo?.stock || 99, q + 1))}
-                  className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 text-white font-bold flex items-center justify-center transition-colors"
-                >+</button>
-              </div>
-
-              {/* Botones */}
-              <div className="flex flex-col gap-2 w-fit">
-                <button
-                  onClick={handleAddToCart}
-                  className="flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#F26522] font-bold px-5 py-2.5 rounded-xl transition-all text-sm"
-                >
-                  <ShoppingCart size={16} />
-                  {added ? "¡Agregado!" : "Agregar al carrito"}
-                </button>
-                <button
-                  onClick={handleWhatsApp}
-                  className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-5 py-2.5 rounded-xl transition-colors text-sm"
-                >
-                  <MessageCircle size={16} />
-                  Ir a WhatsApp
-                </button>
-              </div>
-          </div>
-
+      {/* Imagen del producto — mitad derecha desktop */}
+      {combo && getProductImage(combo) && (
+        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden sm:flex items-end justify-center pointer-events-none">
+          <img
+            src={getProductImage(combo)}
+            alt={combo.nombre}
+            className="h-full w-auto object-contain"
+            style={{ maxHeight: "560px" }}
+          />
         </div>
       )}
 
-      {/* Navegación: flechas + dots abajo */}
-      {!loading && destacados.length > 1 && (
-        <div className="flex items-center justify-center gap-4 mt-4">
+      {/* Contenido izquierdo */}
+      <div
+        className="relative z-10 h-full max-w-7xl mx-auto px-6 sm:px-10 flex items-center"
+        style={{ minHeight: "clamp(280px, 45vw, 560px)" }}
+      >
+        <div className="w-full sm:w-[55%] py-10 text-white flex flex-col justify-center">
+          <span className="inline-block text-xs font-bold bg-white/20 border border-white/30 px-3 py-1 rounded-full mb-3 tracking-wider w-fit">
+            COMBO ESPECIAL
+          </span>
+          <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-1">
+            {combo?.nombre}
+          </h3>
+          <p className="text-white/80 text-sm mb-4 line-clamp-2 max-w-[300px]">
+            {combo?.descripcion}
+          </p>
+          <p className="text-4xl font-bold mb-5">
+            {combo ? formatCurrency(combo.precio * qty) : ""}
+          </p>
+
+          {/* Cantidad */}
+          <div className="flex items-center gap-3 mb-5">
+            <button
+              onClick={() => setQty((q) => Math.max(1, q - 1))}
+              className="w-9 h-9 rounded-lg bg-[#F26522] hover:bg-[#e05a1a] text-white font-bold flex items-center justify-center transition-colors text-lg"
+            >−</button>
+            <span className="text-xl font-bold w-6 text-center">{qty}</span>
+            <button
+              onClick={() => setQty((q) => Math.min(combo?.stock || 99, q + 1))}
+              className="w-9 h-9 rounded-lg bg-[#F26522] hover:bg-[#e05a1a] text-white font-bold flex items-center justify-center transition-colors text-lg"
+            >+</button>
+          </div>
+
+          {/* Botones */}
+          <div className="flex flex-col gap-2 w-fit">
+            <button
+              onClick={handleAddToCart}
+              className="flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#F26522] font-bold px-6 py-3 rounded-xl transition-all text-sm shadow-lg"
+            >
+              <ShoppingCart size={16} />
+              {added ? "¡Agregado!" : "Agregar al carrito"}
+            </button>
+            <button
+              onClick={handleWhatsApp}
+              className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm shadow-lg"
+            >
+              <MessageCircle size={16} />
+              Ir a WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Flechas de navegación */}
+      {destacados.length > 1 && (
+        <>
           <button
             onClick={prev}
             aria-label="Anterior"
-            className="w-8 h-8 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#F26522] flex items-center justify-center transition-all"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/30 hover:bg-black/55 flex items-center justify-center transition-colors"
           >
-            <ChevronLeft size={16} className="text-[#111111]" />
+            <ChevronLeft size={20} className="text-white" />
           </button>
-
-          <div className="flex items-center gap-2">
-            {destacados.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i)}
-                className={`rounded-full transition-all duration-300 ${
-                  i === current ? "w-6 h-2 bg-[#F26522]" : "w-2 h-2 bg-[#D1D5DB] hover:bg-[#F26522]/50"
-                }`}
-              />
-            ))}
-          </div>
-
           <button
             onClick={next}
             aria-label="Siguiente"
-            className="w-8 h-8 rounded-full bg-white border border-[#E5E7EB] shadow-sm hover:border-[#F26522] flex items-center justify-center transition-all"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/30 hover:bg-black/55 flex items-center justify-center transition-colors"
           >
-            <ChevronRight size={16} className="text-[#111111]" />
+            <ChevronRight size={20} className="text-white" />
           </button>
+        </>
+      )}
+
+      {/* Dots */}
+      {destacados.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+          {destacados.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Ir a combo ${i + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                i === current ? "w-6 h-2 bg-white" : "w-2 h-2 bg-white/40 hover:bg-white/70"
+              }`}
+            />
+          ))}
         </div>
       )}
     </section>
