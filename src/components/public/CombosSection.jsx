@@ -17,14 +17,14 @@ export default function CombosSection({ onOpenCheckout }) {
   if (!loading && destacados.length === 0) return null;
 
   const combo = destacados[current];
-  const BANNERS = [
-    "/productos/banner1.1.png",
-    "/productos/banner2.1.png",
-    "/productos/banner3.1.png",
-    "/productos/banner4.1.png",
-    "/productos/banner5.1.png",
-  ];
-  const bannerSrc = BANNERS[current % BANNERS.length];
+  const BANNER_MAP = {
+    "Combo Star": "/productos/banner1.1.png",
+    "Combo Creatina x2": "/productos/banner2.1.png",
+    "Combo Geles Mervick x12 + Regalo": "/productos/banner3.1.png",
+    "Combo Star Premium": "/productos/banner4.1.png",
+    "Combo Carrera": "/productos/banner5.1.png",
+  };
+  const bannerSrc = combo ? (BANNER_MAP[combo.nombre] ?? "/productos/banner1.1.png") : "/productos/banner1.1.png";
 
   function goTo(i) {
     setCurrent(i);
@@ -67,14 +67,13 @@ export default function CombosSection({ onOpenCheckout }) {
       onTouchEnd={onTouchEnd}
     >
       {/* Fondo: banner full-width con overlay oscuro */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url(${bannerSrc})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <div className="absolute inset-0">
+        <img
+          src={bannerSrc}
+          alt=""
+          className="w-full h-full object-cover object-right sm:object-center"
+          draggable={false}
+        />
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
