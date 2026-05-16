@@ -18,7 +18,14 @@ export default function CombosSection({ onOpenCheckout }) {
   if (!loading && destacados.length === 0) return null;
 
   const combo = destacados[current];
-  const bannerSrc = `/productos/banner${(current % 5) + 1}.png`;
+  const BANNERS = [
+    "/productos/banner1.1.png",
+    "/productos/banner2.1.png",
+    "/productos/banner3.1.png",
+    "/productos/banner4.1.png",
+    "/productos/banner5.png",
+  ];
+  const bannerSrc = BANNERS[current % BANNERS.length];
 
   function goTo(i) {
     setCurrent(i);
