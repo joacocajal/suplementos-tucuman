@@ -7,9 +7,12 @@ import CheckoutModal from "../../components/public/CheckoutModal";
 import PromoCarousel from "../../components/public/PromoCarousel";
 import CombosSection from "../../components/public/CombosSection";
 
-// Rutas de imágenes de promos (agregá acá cuando subas las imágenes a /public/promos/)
 const PROMOS = [
-  // "/promos/promo1.jpg",
+  "/productos/banner1.png",
+  "/productos/banner2.png",
+  "/productos/banner3.png",
+  "/productos/banner4.png",
+  "/productos/banner5.png",
 ];
 
 function Toast({ toasts }) {
