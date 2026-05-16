@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight, ShoppingCart, MessageCircle } from "lucide-react";
 import { useProducts } from "../../hooks/useProducts";
-import { getProductImage } from "../../lib/productImageMap";
 import { formatCurrency } from "../../lib/utils";
 import useCartStore from "../../store/cartStore";
 
@@ -67,39 +66,24 @@ export default function CombosSection({ onOpenCheckout }) {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* Fondo izquierdo: banner con overlay oscuro */}
+      {/* Fondo: banner full-width con overlay oscuro */}
       <div
-        className="absolute inset-y-0 left-0 right-0 sm:right-[45%]"
+        className="absolute inset-0"
         style={{
           backgroundImage: `url(${bannerSrc})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* Fondo derecho: naranja (solo desktop) */}
-      <div className="absolute inset-y-0 right-0 left-[55%] bg-[#F26522] hidden sm:block" />
-
-      {/* Imagen del producto — mitad derecha desktop */}
-      {combo && getProductImage(combo) && (
-        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden sm:flex items-end justify-center pointer-events-none">
-          <img
-            src={getProductImage(combo)}
-            alt={combo.nombre}
-            className="h-full w-auto object-contain"
-            style={{ maxHeight: "560px" }}
-          />
-        </div>
-      )}
-
-      {/* Contenido izquierdo */}
+      {/* Contenido */}
       <div
         className="relative z-10 h-full max-w-7xl mx-auto px-6 sm:px-10 flex items-center"
         style={{ minHeight: "clamp(280px, 45vw, 560px)" }}
       >
-        <div className="w-full sm:w-[55%] py-10 text-white flex flex-col justify-center">
+        <div className="w-full sm:w-1/2 py-10 text-white flex flex-col justify-center">
           <span className="inline-block text-xs font-bold bg-white/20 border border-white/30 px-3 py-1 rounded-full mb-3 tracking-wider w-fit">
             COMBO ESPECIAL
           </span>
